@@ -10,6 +10,7 @@ Created on Wed Sep 23 17:52:44 2020
 from VisuHeaviMob import *
 from cycler import cycler
 import matplotlib.colors as colors
+import matplotlib.ticker as ticker
 
 ########################     plot parameters     ########################
 
@@ -19,9 +20,9 @@ default_cycler = (cycler('color', ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '
 cycler(linestyle=['-',(0,(3,1)),':',(0,(4,1,1,1)),(0,(3,5,3,5,1,5)),(0,(3,5,1,5,1,5)),(0,(30,5,1,5)),(0,(10,5,3,5))]))
 
 plt.rcParams['figure.figsize']=[16,9] # used to set the figures to fullsize (important for tight_layout)
-plt.rcParams['font.size']=25
+plt.rcParams['font.size']=35
 plt.rcParams['grid.linewidth']=1.0
-plt.rc('lines',lw=5)
+plt.rc('lines',lw=8)
 plt.rc('axes', prop_cycle=default_cycler)
 plt.rc('xtick.major', size=14.0, width=3.2)
 plt.rc('xtick.minor', size=8.0, width=2.4)
@@ -145,7 +146,7 @@ def xslice(tmax,x0=0,N=4,lim=None,centered=True, ratiomin=0.004, ratiomax=100):
                 label+=u'L=%.3f'
         else:
             label+=u'L=%.1f'
-        label+=u'µm et '
+        label+=u'µm, '
         
         if R<0.5: 
             if R<0.003:
@@ -210,7 +211,7 @@ def xsliceP(tmax,x0=0,N=4,lim=None,centered=True, ratiomin=1e-5, ratiomax=0.1, P
                 label+=u'L=%.3f'
         else:
             label+=u'L=%.1f'
-        label+=u'µm et '
+        label+=u'µm, '
         
         if R<0.5: 
             if R<0.003:
@@ -326,20 +327,20 @@ def maxPcte(t,N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
     Rs=np.logspace(np.log10(Rmin),np.log10(Rmax),N)
     Ls=np.logspace(np.log10(Lmin),np.log10(Lmax),NL)
 
-    fig = plt.figure() 
-    ax=[]
+    fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(NL))), ncols=int(np.ceil(np.sqrt(NL))), sharex=True, sharey=True)
+    for i in range(len(ax)): ax[i,0].set_ylabel('h')
+    for i in range(len(ax[-1])): ax[-1,i].set_xlabel(u'R (µm)')
+    ax=ax.flatten()
     for a,i in enumerate(Ls):
-
-        ax.append(fig.add_subplot(int(np.ceil(np.sqrt(NL))),int(np.ceil(np.sqrt(NL))),a+1))
 
         Z=np.zeros(N)
         for b,j in enumerate(Rs):
             Iloc=P/(np.pi*j**2)
             Z[b]= Iloc*Solution(i,j,np.array([0]),np.array([t]))[0]
-
+            
         ax[a].loglog(Rs, Khi*Z/c)
         if i<t:
-            ax[a].axvline(np.sqrt(2*i*t-i**2),lw=3,ls='--')
+            ax[a].axvline(np.sqrt(2*i*t-i**2),ls='--',lw=plt.rcParams['lines.linewidth']*3/5)
         else:
             ax[a].axvline(i,lw=3,ls='--')
         if lim:
@@ -358,8 +359,9 @@ def maxPcte(t,N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
         label+=u'µm'
         
         ax[a].set_title(label%(i))
-        ax[a].set_xlabel(u'R (µm)')
-        ax[a].set_ylabel('h')
+        ax[a].yaxis.set_major_locator(ticker.LogLocator(base=10, numticks=4))
+#        ax[a].set_xlabel(u'R (µm)')
+#        ax[a].set_ylabel('h')
         
     plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
