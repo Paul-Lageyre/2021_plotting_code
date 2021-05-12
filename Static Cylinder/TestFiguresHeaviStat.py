@@ -16,9 +16,9 @@ from cycler import cycler
 default_cycler = (cycler('color', ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#17becf'])+
 cycler(linestyle=['-',(0,(3,1)),':',(0,(4,1,1,1)),(0,(3,5,3,5,1,5)),(0,(3,5,1,5,1,5)),(0,(30,5,1,5)),(0,(10,5,3,5))]))
 
-plt.rcParams['figure.figsize']=[16,9] # used to set the figures to fullsize (important for tight_layout)
-plt.rcParams['font.size']=25
-plt.rc('lines',lw=5)
+plt.rcParams['figure.figsize']=[18.53,9.55] # used to set the figures to fullsize (important for tight_layout)
+plt.rcParams['font.size']=35
+plt.rc('lines',lw=8)
 plt.rc('axes', prop_cycle=default_cycler)
 plt.rc('xtick.major', size=14.0, width=3.2)
 plt.rc('xtick.minor', size=8.0, width=2.4)
@@ -138,7 +138,7 @@ def xslice(tmax,x0=0,N=4,lim=None, centered=True, ratiomin=0.004, ratiomax=100):
                 label+=u'L=%.3f'
         else:
             label+=u'L=%.1f'
-        label+=u'µm et '
+        label+=u'µm, '
         
         if R<0.5: 
             if R<0.003:
@@ -180,6 +180,7 @@ def maxStat(rmin,rmax,N):
     line.axes.ticklabel_format(axis='y', style='sci', scilimits=(-2,2))
     plt.xlabel("Rapport d'aspect L/R")
     plt.ylabel('Maximum de h')
+    plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
     
 def tFWHM(t,rmin,rmax,N): 
@@ -203,6 +204,7 @@ def tFWHM(t,rmin,rmax,N):
     line.axes.ticklabel_format(axis='y', style='sci', scilimits=(-2,2))
     plt.xlabel("Rapport d'aspect L/R")
     plt.ylabel('FWHM (m)')
+    plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
     
 def surfplot(L,R,N,domain=Domaine):
@@ -227,8 +229,8 @@ def surfplot(L,R,N,domain=Domaine):
         
         ax = fig.gca(projection='3d')
         ax.ticklabel_format(axis='both', style='sci', scilimits=(-4,4))
-        ax.set_xlabel(u"z (µm)",labelpad=20)
-        ax.set_ylabel(u'ct (µm)',labelpad=20)
+        ax.set_xlabel(u"z (µm)",labelpad=40)
+        ax.set_ylabel(u'ct (µm)',labelpad=40)
         ax.set_zlabel('h',labelpad=20)
         ax.tick_params(axis='z', pad=10)
         
@@ -247,6 +249,9 @@ def surfplot(L,R,N,domain=Domaine):
         cbar=fig.colorbar(surf1)
         cbar2=fig2.colorbar(surfp) 
         
-        cbar.ax.set_ylabel('h', labelpad=20, rotation=270)
-        cbar2.ax.set_ylabel('h', labelpad=20, rotation=270)
+        cbar.ax.set_ylabel('h', labelpad=40, rotation=270)
+        cbar2.ax.set_ylabel('h', labelpad=40, rotation=270)
+        
+        fig.tight_layout(pad=1,rect=(0,0,1,.95))
+        fig2.tight_layout(pad=1,rect=(0,0,1,.95))
 

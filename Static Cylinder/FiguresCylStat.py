@@ -8,7 +8,7 @@ Created on Wed Feb 24 11:47:58 2021
 
 from TestFiguresHeaviStat import *
 
-directory='/directory_adress' #fill with the directory you want the graphs to save to
+directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviStat/Corrected_05_2021' #fill with the directory you want the graphs to save to
 
 def saveplt(name,direc=directory):
     
