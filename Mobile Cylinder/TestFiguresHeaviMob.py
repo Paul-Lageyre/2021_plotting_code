@@ -19,11 +19,11 @@ import matplotlib.ticker as ticker
 default_cycler = (cycler('color', ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#17becf'])+
 cycler(linestyle=['-',(0,(3,1)),':',(0,(4,1,1,1)),(0,(3,5,3,5,1,5)),(0,(3,5,1,5,1,5)),(0,(30,5,1,5)),(0,(10,5,3,5))]))
 
-plt.rcParams['figure.figsize']=[16,9] # used to set the figures to fullsize (important for tight_layout)
+plt.rcParams['figure.figsize']=[18.53,9.55] # used to set the figures to fullsize (important for tight_layout)
 plt.rcParams['font.size']=35
 plt.rcParams['grid.linewidth']=1.0
 plt.rc('lines',lw=8)
-plt.rc('axes', prop_cycle=default_cycler)
+plt.rc('axes', prop_cycle=default_cycler, titlesize=u'medium')
 plt.rc('xtick.major', size=14.0, width=3.2)
 plt.rc('xtick.minor', size=8.0, width=2.4)
 plt.rc('ytick.major', size=14.0, width=3.2)
@@ -58,8 +58,12 @@ def tslice(t,N=4,lim=None, ratiomin=0.004, ratiomax=100):
     ratiomin: lowest size ratio
     ratiomax: highest size ratio
     """
-    fig = plt.figure()
-    ax=[]
+    if lim: fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(N))), ncols=int(np.ceil(np.sqrt(N))), sharex=True, sharey=True)
+    else: fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(N))), ncols=int(np.ceil(np.sqrt(N))), sharex=True)
+    
+    for i in range(len(ax)): ax[i,0].set_ylabel('h')
+    for i in range(len(ax[-1])): ax[-1,i].set_xlabel(u'Z- L/2 (µm)')
+    ax=ax.flatten()
     
     ratios = np.logspace(np.log10(ratiomin),np.log10(ratiomax),N)
     for a,i in enumerate(ratios):
@@ -74,7 +78,6 @@ def tslice(t,N=4,lim=None, ratiomin=0.004, ratiomax=100):
             x=np.linspace(Domaine[0],Domaine[1],200)
 #        
 #        x=np.linspace(-10*L,L/2,100) # other plot setting
-        ax.append(fig.add_subplot(int(np.ceil(np.sqrt(N))),int(np.ceil(np.sqrt(N))),a+1))
         Z= Solution(L,R,x+L/2,t*np.ones(np.shape(x)))[0]
 #        x=x/L #for normalization purposes
         ax[a].plot(x, Khi*I*(l0**2)*Z/c)
@@ -102,8 +105,9 @@ def tslice(t,N=4,lim=None, ratiomin=0.004, ratiomax=100):
         label+=u'µm'
         ax[a].set_title(label%(L,R), fontsize=plt.rcParams['font.size'])
         
-        ax[a].set_xlabel(u'Z- L/2 (µm)')
-        ax[a].set_ylabel('h')
+        
+#        ax[a].set_xlabel(u'Z- L/2 (µm)')
+#        ax[a].set_ylabel('h')
     
     plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
@@ -124,7 +128,7 @@ def xslice(tmax,x0=0,N=4,lim=None,centered=True, ratiomin=0.004, ratiomax=100):
     ax=[]
 
     ratios = np.logspace(np.log10(ratiomin),np.log10(ratiomax),N)
-    yloc = np.logspace(np.log10(0.1),np.log10(tmax),Npoints)
+    yloc = np.logspace(np.log10(1),np.log10(tmax),Npoints)
     for a,i in enumerate(ratios):
         r=i
         L=np.cbrt(V*r**2 /np.pi)
@@ -264,6 +268,7 @@ def maxMob(t,rmin,rmax,N):
     plt.xlabel("Rapport d'aspect L/R")
     plt.ylabel('Maximum de h')
     plt.legend()
+    plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
 
 def surfplot(L,R,N,domain=Domaine):
@@ -288,9 +293,9 @@ def surfplot(L,R,N,domain=Domaine):
 
         ax = fig.gca(projection='3d')
         ax.ticklabel_format(axis='both', style='sci', scilimits=(-4,4))
-        ax.set_xlabel(u'Z (µm)',labelpad=20)
-        ax.set_ylabel(u'ct (µm)',labelpad=20)
-        ax.set_zlabel('h',labelpad=20)
+        ax.set_xlabel(u'Z (µm)',labelpad=40)
+        ax.set_ylabel(u'ct (µm)',labelpad=40)
+        ax.set_zlabel('h',labelpad=40)
         ax.tick_params(axis='z', pad=10)
 
         xs = np.linspace(domain[0],domain[1],N)
@@ -307,8 +312,11 @@ def surfplot(L,R,N,domain=Domaine):
         cbar=fig.colorbar(surf1)
         cbar2=fig2.colorbar(surfp)
 
-        cbar.ax.set_ylabel('h', labelpad=20, rotation=270)
-        cbar2.ax.set_ylabel('h', labelpad=20, rotation=270)
+        cbar.ax.set_ylabel('h', labelpad=40, rotation=270)
+        cbar2.ax.set_ylabel('h', labelpad=40, rotation=270)
+        
+        fig.tight_layout(pad=1,rect=(0,0,1,.95))
+        fig2.tight_layout(pad=1,rect=(0,0,1,.95))
 
 
 def maxPcte(t,N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
@@ -327,7 +335,9 @@ def maxPcte(t,N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
     Rs=np.logspace(np.log10(Rmin),np.log10(Rmax),N)
     Ls=np.logspace(np.log10(Lmin),np.log10(Lmax),NL)
 
-    fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(NL))), ncols=int(np.ceil(np.sqrt(NL))), sharex=True, sharey=True)
+    if lim: fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(NL))), ncols=int(np.ceil(np.sqrt(NL))), sharex=True, sharey=True)
+    else: fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(NL))), ncols=int(np.ceil(np.sqrt(NL))), sharex=True)
+    
     for i in range(len(ax)): ax[i,0].set_ylabel('h')
     for i in range(len(ax[-1])): ax[-1,i].set_xlabel(u'R (µm)')
     ax=ax.flatten()
@@ -383,11 +393,11 @@ def maxPcteRt(N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
     Rs=np.logspace(np.log10(Rmin),np.log10(Rmax),N)
     Ls=np.logspace(np.log10(Lmin),np.log10(Lmax),NL)
 
-    fig = plt.figure(figsize=(16,9)) #figsize=(16,9) pour avoir le plein écran pour l'application de tight_layout
-    ax=[]
+    fig, ax = plt.subplots(nrows=int(np.ceil(np.sqrt(NL))), ncols=int(np.ceil(np.sqrt(NL))), sharex=True)
+    for i in range(len(ax)): ax[i,0].set_ylabel('h')
+    for i in range(len(ax[-1])): ax[-1,i].set_xlabel(u'R (µm)')
+    ax=ax.flatten()
     for a,i in enumerate(Ls):
-
-        ax.append(fig.add_subplot(int(np.ceil(np.sqrt(NL))),int(np.ceil(np.sqrt(NL))),a+1))
 
         Z=np.zeros(N)
         for b,j in enumerate(Rs):
@@ -413,7 +423,8 @@ def maxPcteRt(N,Rmin=1,Rmax=1e5,Lmin=5,Lmax=5e3,NL=4,P=1e15,lim=None):
         label+=u'µm'
         
         ax[a].set_title(label%(i))
+#        ax[a].yaxis.set_major_locator(ticker.MaxNLocator(3))
         
-        ax[a].set_xlabel(u'R (µm)')
-        ax[a].set_ylabel('h')
+#        ax[a].set_xlabel(u'R (µm)')
+#        ax[a].set_ylabel('h')
     plt.tight_layout(pad=1,rect=(0,0,1,.95))

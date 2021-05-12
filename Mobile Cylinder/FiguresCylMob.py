@@ -8,7 +8,7 @@ Created on Wed Feb 24 11:47:58 2021
 
 from TestFiguresHeaviMob import *
 
-directory='/directory_adress' #fill with the directory you want the graphs to save to
+directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviMob/Corrected_05_2021' #fill with the directory you want the graphs to save to
 
 def saveplt(name,direc=directory):
     
@@ -44,7 +44,7 @@ a=plt.gca()
 a.set_ylim(0,2.2e-35)
 saveplt('maxMob50-250-1500-5000')
 
-maxPcte(1e4,500)
+maxPcte(1e4,500,lim=6.2e-37)
 saveplt('maxPcte10000')
 
 maxPcteRt(500,NL=4)
