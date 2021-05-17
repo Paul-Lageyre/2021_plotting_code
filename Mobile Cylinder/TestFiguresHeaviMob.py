@@ -265,8 +265,8 @@ def maxMob(t,rmin,rmax,N):
     t_label+=u'µm'
     line.set_label(t_label.format(t))
     
-    plt.xlabel("Rapport d'aspect L/R")
-    plt.ylabel('Maximum de h')
+    plt.xlabel("Aspect ratio L/R")
+    plt.ylabel('Maximum of h')
     plt.legend()
     plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
