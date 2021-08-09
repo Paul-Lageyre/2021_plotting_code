@@ -8,7 +8,7 @@ Created on Wed Feb 24 11:47:58 2021
 
 from TestFiguresHeaviMob import *
 
-directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviMob/Corrected_05_2021' #fill with the directory you want the graphs to save to
+directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviMob/Corrected_07_2021' #fill with the directory you want the graphs to save to
 
 def saveplt(name,direc=directory):
     
@@ -17,22 +17,22 @@ def saveplt(name,direc=directory):
     plt.close()
     
 
-tslice(50,lim=1.55e-36)
+tslice(50,lim=3.1e-36)
 saveplt('tslice50')
 
-tslice(250,lim=4.9e-36)
+tslice(250,lim=9.8e-36)
 saveplt('tslice250')
 
-tslice(5000,lim=1.65e-35)
+tslice(5000,lim=3.3e-35)
 saveplt('tslice5000')
 
-xslice(50,lim=1.5e-36,centered=False)
+xslice(50,lim=3e-36,centered=False)
 saveplt('xslice50uncen')
 
-xslice(5000,lim=1.6e-35,centered=False)
+xslice(5000,lim=3.2e-35,centered=False)
 saveplt('xslice5000uncen')
 
-xsliceP(1e8,centered=False,lim=1.2e-36)
+xsliceP(1e8,centered=False,lim=2.4e-36)
 saveplt('xsliceP1e8uncen')
 
 plt.figure()
@@ -41,10 +41,10 @@ maxMob(250,-10,4,500)
 maxMob(1500,-10,4,500)
 maxMob(5000,-10,4,500)
 a=plt.gca()
-a.set_ylim(0,2.2e-35)
+a.set_ylim(0,4.4e-35)
 saveplt('maxMob50-250-1500-5000')
 
-maxPcte(1e4,500,lim=6.2e-37)
+maxPcte(1e4,500,lim=1.24e-36)
 saveplt('maxPcte10000')
 
 maxPcteRt(500,NL=4)
