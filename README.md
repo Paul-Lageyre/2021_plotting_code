@@ -4,6 +4,8 @@ Code used to plot the results presented in papers written by Paul LAGEYRE et al.
 The repository is comprised of folders separating the different codes.
 
 Updates:
+09/08/2021 - Multiplied by 2 some functions to take into account the actual constant in front of the stress-energy tensor in linearized Einstein's equations.
+
 29/04/2021 - Added the plotting programs for the generation of a gravitational deformation by a cylinder of constant energy density, both in a static case and a case moving at the speed of light.
 
 VisuHeavi files determine the solution
