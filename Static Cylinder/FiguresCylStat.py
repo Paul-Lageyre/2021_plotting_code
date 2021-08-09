@@ -8,7 +8,7 @@ Created on Wed Feb 24 11:47:58 2021
 
 from TestFiguresHeaviStat import *
 
-directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviStat/Corrected_05_2021' #fill with the directory you want the graphs to save to
+directory='/home/paulg/Documents/Redactions/Courbes/VisuHeaviStat/Corrected_07_2021' #fill with the directory you want the graphs to save to
 
 def saveplt(name,direc=directory):
     
@@ -17,13 +17,13 @@ def saveplt(name,direc=directory):
     plt.close()
     
 
-tslice(10,lim=7.8e-37)
+tslice(10,lim=1.56e-36)
 saveplt('tslice10')
 
-tslice(50,lim=7.8e-37)
+tslice(50,lim=1.56e-36)
 saveplt('tslice50')
 
-tslice(1000,lim=7.8e-37)
+tslice(1000,lim=1.56e-36)
 saveplt('tslice1000')
 
 xslice(150)
@@ -32,7 +32,7 @@ saveplt('xslice150')
 
 maxStat(-4,4,500)
 a=plt.gca()
-a.set_ylim(0,8.3e-37)
+a.set_ylim(0,1.66e-36)
 saveplt('maxStat')
 
 tFWHM(1000,-4,2,1000)
