@@ -28,7 +28,7 @@ plt.rc('ytick.minor', size=8.0, width=2.4)
 
 c= 299792458.
 
-Khi= 4*np.pi *6.06742e-11 / c**4 # Einstein's constant/2
+Khi= 8*np.pi *6.06742e-11 / c**4 # Einstein's constant/2
 
 l0= 1e-6 # Problem's scaling length
 
@@ -178,8 +178,8 @@ def maxStat(rmin,rmax,N):
     fig=plt.figure(figsize=(16,9))
     line,=plt.semilogx(rs,maxlist)
     line.axes.ticklabel_format(axis='y', style='sci', scilimits=(-2,2))
-    plt.xlabel("Rapport d'aspect L/R")
-    plt.ylabel('Maximum de h')
+    plt.xlabel("Aspect ratio L/R")
+    plt.ylabel('Maximum of h')
     plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
     
@@ -202,7 +202,7 @@ def tFWHM(t,rmin,rmax,N):
     fig=plt.figure(figsize=(16,9))
     line,= plt.semilogx(rs,l0*np.array(fmax))
     line.axes.ticklabel_format(axis='y', style='sci', scilimits=(-2,2))
-    plt.xlabel("Rapport d'aspect L/R")
+    plt.xlabel("Aspect ratio L/R")
     plt.ylabel('FWHM (m)')
     plt.tight_layout(pad=1,rect=(0,0,1,.95))
 
